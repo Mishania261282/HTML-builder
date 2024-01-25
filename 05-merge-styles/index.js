@@ -1,6 +1,5 @@
 const fs = require('fs');
 const fsPromise = require('fs/promises');
-const { rm, mkdir } = require('fs/promises');
 const path = require('path');
 
 async function mergeStyles() {
@@ -9,9 +8,6 @@ async function mergeStyles() {
   const resultFilePath = path.join(targetFolderPath, 'bundle.css');
 
   try {
-    await rm(targetFolderPath, { force: true, recursive: true });
-    await mkdir(targetFolderPath, { recursive: true });
-
     const files = await fsPromise.readdir(originFolderPath);
     const cssFiles = files.filter((file) => path.extname(file) === '.css');
     const writeStream = fs.createWriteStream(resultFilePath);
