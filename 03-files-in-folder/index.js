@@ -1,17 +1,24 @@
 const fs = require('fs');
+const { readdir } = require('fs/promises');
 const path = require('path');
 const { stdout } = process;
 const pathFolder = path.join(__dirname, 'secret-folder');
 
-fs.readdir(pathFolder, { withFileTypes: true }, (error, files) => {
-  // {withFileTypes: true} file as object, otherwise will be as a string
-  if (error) {
-    console.log(error);
-  }
-
+async function copyFile() {
+  const files = await readdir(
+    pathFolder,
+    { withFileTypes: true },
+    (error, files) => {
+      // {withFileTypes: true} file as object, otherwise will be as a string
+      if (error) {
+        console.log(error);
+      } else {
+        return files;
+      }
+    },
+  );
   files.forEach((file) => {
     if (file.isFile()) {
-      console.log(file);
       const pathFile = path.join(pathFolder, file.name);
       fs.stat(pathFile, (error, stats) => {
         if (error) {
@@ -26,4 +33,6 @@ fs.readdir(pathFolder, { withFileTypes: true }, (error, files) => {
       });
     }
   });
-});
+}
+
+copyFile();
