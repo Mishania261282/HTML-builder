@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const fs = require('fs');
 const fsPromise = require('fs/promises');
 const path = require('path');
@@ -16,7 +17,7 @@ async function mergeStyles() {
       const readStream = fs.createReadStream(filePath, 'utf-8');
       readStream.pipe(writeStream);
     }),
-      console.log('The contents of the styles compiled successfully.');
+      process.stdout.write('The contents of the styles compiled successfully.');
   } catch (error) {
     console.error(`Error merging styles: ${error.message}`);
   }
